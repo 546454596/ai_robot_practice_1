@@ -3,7 +3,7 @@
   <arg name="threeD" default="false"/>
   <arg name="params_filename" default="params_hokuyo.yaml"/>
   <arg name="point_cloud_topic" default="sensors/lidar/points"/>
-  <arg name="sim" default="false">
+  <arg name="sim" default="true"/>
 
     <rosparam command="load" file="$(find ai_robot_navigation)/config/oa/$(arg params_filename)"/>
   <param name="obslog" value="$(find ai_robot_navigation)/log/obslog.txt"/>

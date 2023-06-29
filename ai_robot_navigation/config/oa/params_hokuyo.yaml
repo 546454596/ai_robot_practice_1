@@ -19,6 +19,10 @@ max_rz: 0.87
 min_turn_radius: 0
 #1.25
 
+#robot's width and robot's safe gap distance
+robot_width: 0.15
+robot_safe_gap: 0.2
+
 # detection tolarence of obstacles, the smaller the stricter
 det_tolerance: 3
 

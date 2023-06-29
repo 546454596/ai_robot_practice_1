@@ -148,6 +148,9 @@ private:
   double time_of_halfpi_;
   double det_tol_;
 
+  //robot's width   robot's safe gap
+  double robot_width, robot_safe_gap;
+
   // lidar3d
   bool lidar3d_used_;
   double lidar3d_initial_height_;

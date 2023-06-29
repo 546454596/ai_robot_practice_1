@@ -1477,13 +1477,55 @@ int P3atObstacleAvoidance::findNearestSafeZone(float dyaw, float tgt_dist, float
     return -1;
 
   in_safezone_ = false;
-  int num_of_nearest = -1;
-  float min_dtheta = 360, tmp_dtheta, tmp_dist, tmp_dir;
-  fs_logger_ << "all " << safezone_vec_.size() << " safezone\n";
+  int num_of_nearest = -1, num_of_safezone = safezone_vec_.size();
+  float min_dtheta = 360, tmp_dtheta, tmp_dist, tmp_dir, max_safezone = 0;
+  fs_logger_ << "all " << num_of_safezone << " safezone\n";
 
   // for view
   int imglx, imgly, imgrx, imgry;
-  bool tmp_in_safezone;
+  float safewid[num_of_safezone], safelx[num_of_safezone], safely[num_of_safezone], saferx[num_of_safezone], safery[num_of_safezone];
+  bool tmp_in_safezone, pass_safe_zone;
+
+  for(int i=0; i<safezone_vec_.size(); ++i){
+    safelx[i] = safezone_vec_[i].left_p[0]*cos(safezone_vec_[i].left_p[1]);
+    safely[i] = safezone_vec_[i].left_p[0]*sin(safezone_vec_[i].left_p[1]);
+    saferx[i] = safezone_vec_[i].right_p[0]*cos(safezone_vec_[i].right_p[1]);
+    safery[i] = safezone_vec_[i].right_p[0]*sin(safezone_vec_[i].right_p[1]);
+    safewid[i] = sqrt(pow(safelx[i]-saferx[i], 2) + pow(safely[i]-safery[i], 2));
+    if(safewid[i] >= robot_width + robot_safe_gap){// to ensure robot to pass through the safezone with safe gap
+      pass_safe_zone = true;
+      tmp_dtheta = safezone_vec_[i].getdTheta(dyaw, tgt_dist, tmp_dist, tmp_dir,tmp_in_safezone);
+    }
+    else if(safewid[i] >= max_safezone){// find the max safezone 
+      max_safezone = safewid[i];
+      if(max_safezone > robot_width){// to ensure robot to pass through the safezone without safe gap
+        pass_safe_zone = true;
+        tmp_dtheta = safezone_vec_[i].getdTheta(dyaw, tgt_dist, tmp_dist, tmp_dir,tmp_in_safezone);
+      }
+      else{
+        pass_safe_zone = false;
+        max_safezone = 0.0;
+      }
+    }
+
+    if(tmp_dtheta < -7) continue;
+    if(fabs(tmp_dtheta) < fabs(min_dtheta) && pass_safe_zone){
+      // is_in_safezone=tmp_in_safezone;
+      min_dtheta = tmp_dtheta;
+      dist = tmp_dist;
+      dir = tmp_dir;
+      num_of_nearest = i;
+      ddir_between_now_and_chosen_dir = dir - 0;//safezone_vec[i].getdTheta(0, tgt_dist, tmp_dist, tmpdir);
+      if(safezone_vec_[i].safe_dir[1] > 0 && safezone_vec_[i].safe_dir[0] < 0){
+          in_safezone = true;
+          in_safezone = true;
+      }
+      else{
+          in_safezone = false;
+          in_safezone = false;
+      }
+    }
+  }
 
   for (int i = 0; i < safezone_vec_.size(); ++i) {
 
