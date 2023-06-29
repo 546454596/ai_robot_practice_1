@@ -1518,40 +1518,11 @@ int P3atObstacleAvoidance::findNearestSafeZone(float dyaw, float tgt_dist, float
       ddir_between_now_and_chosen_dir = dir - 0;//safezone_vec[i].getdTheta(0, tgt_dist, tmp_dist, tmpdir);
       if(safezone_vec_[i].safe_dir[1] > 0 && safezone_vec_[i].safe_dir[0] < 0){
           in_safezone = true;
-          in_safezone = true;
+          in_safezone_ = true;
       }
       else{
           in_safezone = false;
-          in_safezone = false;
-      }
-    }
-  }
-
-  for (int i = 0; i < safezone_vec_.size(); ++i) {
-
-    tmp_dtheta = safezone_vec_[i].getdTheta(dyaw, tgt_dist, tmp_dist, tmp_dir, tmp_in_safezone);
-
-    fs_logger_ << "zone[" << i << "]:lp[0]=" << safezone_vec_[i].left_p[0] << ", lp[1]=" << safezone_vec_[i].left_p[1] *
-        180 / M_PI << ", rp[0]=" << safezone_vec_[i].right_p[0] << ", rp[1]=" << safezone_vec_[i].right_p[1] * 180 / M_PI
-        << ", safedir:" << safezone_vec_[i].safe_dir[0] * 180 / M_PI << ", " << safezone_vec_[i].safe_dir[1] * 180 / M_PI
-        << ", dtheta:" << tmp_dtheta << '\n';
-
-    if (tmp_dtheta < -7)
-      continue;
-
-    if (fabs(tmp_dtheta) < fabs(min_dtheta)) {
-      // in_safezone_=tmp_in_safezone;
-      min_dtheta = tmp_dtheta;
-      dist = tmp_dist;
-      dir = tmp_dir;
-      num_of_nearest = i;
-      ddir_between_now_and_chosen_dir = dir;
-      if (safezone_vec_[i].safe_dir[1] > 0 && safezone_vec_[i].safe_dir[0] < 0) {
-        in_safezone = true;
-        in_safezone_ = true;
-      } else {
-        in_safezone = false;
-        in_safezone_ = false;
+          in_safezone_ = false;
       }
     }
   }
