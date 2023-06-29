@@ -1492,13 +1492,13 @@ int P3atObstacleAvoidance::findNearestSafeZone(float dyaw, float tgt_dist, float
     saferx[i] = safezone_vec_[i].right_p[0]*cos(safezone_vec_[i].right_p[1]);
     safery[i] = safezone_vec_[i].right_p[0]*sin(safezone_vec_[i].right_p[1]);
     safewid[i] = sqrt(pow(safelx[i]-saferx[i], 2) + pow(safely[i]-safery[i], 2));
-    if(safewid[i] >= robot_width + robot_safe_gap){// to ensure robot to pass through the safezone with safe gap
+    if(safewid[i] >= robot_width + robot_safe_gap){ // to ensure robot to pass through the safezone with safe gap
       pass_safe_zone = true;
       tmp_dtheta = safezone_vec_[i].getdTheta(dyaw, tgt_dist, tmp_dist, tmp_dir,tmp_in_safezone);
     }
-    else if(safewid[i] >= max_safezone){// find the max safezone 
+    else if(safewid[i] >= max_safezone){ // find the max safezone 
       max_safezone = safewid[i];
-      if(max_safezone > robot_width){// to ensure robot to pass through the safezone without safe gap
+      if(max_safezone > robot_width){ // to ensure robot to pass through the safezone without safe gap
         pass_safe_zone = true;
         tmp_dtheta = safezone_vec_[i].getdTheta(dyaw, tgt_dist, tmp_dist, tmp_dir,tmp_in_safezone);
       }
@@ -1515,7 +1515,7 @@ int P3atObstacleAvoidance::findNearestSafeZone(float dyaw, float tgt_dist, float
       dist = tmp_dist;
       dir = tmp_dir;
       num_of_nearest = i;
-      ddir_between_now_and_chosen_dir = dir - 0;//safezone_vec[i].getdTheta(0, tgt_dist, tmp_dist, tmpdir);
+      ddir_between_now_and_chosen_dir = dir - 0; //safezone_vec[i].getdTheta(0, tgt_dist, tmp_dist, tmpdir);
       if(safezone_vec_[i].safe_dir[1] > 0 && safezone_vec_[i].safe_dir[0] < 0){
           in_safezone = true;
           in_safezone_ = true;
