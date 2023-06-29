@@ -1,0 +1,7 @@
+<launch>
+	<!-- <arg name="cam_razor_config_file" default="$(find ai_robot_sensors)/config/imu/my_razor_xlab.yaml" /> -->
+	<arg name="cam_razor_config_file" default="$(find razor_imu_9dof)/config/my_razor.yaml" />
+  <node	name="ext_imu" pkg="razor_imu_9dof" type="imu_node.py" respawn="false" output="screen" ns="sensors">
+    <rosparam file="$(arg cam_razor_config_file)" command="load" />
+  </node>
+</launch>

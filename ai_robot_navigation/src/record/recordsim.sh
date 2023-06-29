@@ -1,0 +1,1 @@
+rosbag record -O carto /sim_p3at/cmd_vel /gt_posetwist /tf

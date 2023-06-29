@@ -1,0 +1,12 @@
+<!-- orbslam load launch, can only be used with modified ORB-SLAM -->
+<launch>
+  <arg name="map_folder" default="$(env HOME)/Workspace/test/" />
+  <node name="orb_slam_node" pkg="orb_slam_saveload" type="Stereo" args="$(find orb_slam_saveload)/../../../Vocabulary/ORBvoc.txt $(find ai_robot_localization)/orbslam_configs/zed_stereo.yaml false 1 true $(arg map_folder)" output="screen">
+    <param name="use_compressed" value="true" />
+    <!--remap from="/sensors/stereo_cam/left/image_rect_color" to="/camera/left/image_raw" />
+    <remap from="/sensors/stereo_cam/right/image_rect_color" to="/camera/right/image_raw" /-->
+    <!--remap from="/sensors/stereo_cam/left/image_rect_color/compressed" to="/camera/left/image_raw/compressed" />
+    <remap from="/sensors/stereo_cam/right/image_rect_color/compressed" to="/camera/right/image_raw/compressed" /-->
+  </node>
+</launch>
+<!-- vim: set ft=xml noet : -->

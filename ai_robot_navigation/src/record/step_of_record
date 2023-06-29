@@ -1,0 +1,18 @@
+simulation:
+for movebase
+1. turn on gazebo, cartographer, movebase;
+2. ./recordsim.sh;
+3. pub destination, python pubdes.py;
+4. put bagfile to folder;
+
+for my method
+1. turn on gazebo, cartographer, ai_robot_navigation;
+2. send destination;
+3. ./recordsim.sh;
+4. start nav;
+5. put bagfile to folder;
+
+afterwards
+1. python record.py;
+2. open matlab and import the files;
+3. run dealandshow.m

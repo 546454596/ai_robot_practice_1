@@ -1,0 +1,18 @@
+pub_rate: 1.0
+base_path: ''
+analyzers:
+  sensors:
+    type: AnalyzerGroup
+    path: 'Sensors'
+    startswith: 'sensors'
+    analyzers:
+      imu:
+        type: GenericAnalyzer
+        path: 'IMU'
+        timeout: 5.0
+        contains: ['Razor_Imu']
+      gnss:
+        type: GenericAnalyzer
+        path: 'GNSS'
+        timeout: 5.0
+        contains: ['fix']

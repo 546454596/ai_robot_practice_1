@@ -1,0 +1,76 @@
+<luunch>
+	<!-- Sensor enable/disable switch -->
+	<arg name="use_gnss" default="false" />
+	<arg name="use_imu_cam" default="false" />
+	<arg name="use_imu_center" default="false" />
+	<arg name="use_laser" default="true" />
+	<arg name="use_velodyne" default="false" />
+	<arg name="use_quanergy" default="false" />
+	<arg name="use_vicon" default="false" />
+	<arg name="use_vision" default="true" />
+
+	<!-- GNSS parameters -->
+	<arg name="gps_module" default="neo-m8p-2-10" doc="specifiy u-blox NEO-M8P-2-10 module" />
+	<arg name="gps_dev" default="/dev/ublox-m8p" />
+
+	<!-- Vicon parameters -->
+	<arg name="vicon_ip"	default="192.168.0.10:801" />
+
+	<!-- Launch quanergy -->
+	<include file="$(find quanergy_client_ros)/launch/client.launch" if="$(arg use_quanergy)" />
+	<include file="$(find rplidar_ros)/launch/rplidar.launch" if="$(arg use_laser)">
+		<param name="serial_port" type="string" value="/dev/rplidar" />
+		<remap from="scan" to="sensors/scan" />
+	</include>
+
+	<!-- Launch ZED camera -->
+	<include file="$(find zed_wrapper)/launch/zed2.launch">
+		<arg name="camera_name" value="sensors" />
+		<arg name="node_name" value="stereo_cam" /> 
+	</include>
+
+	<group ns="sensors">
+		<!-- Launch IMU -->
+		<node	name="ext_imu" pkg="razor_imu_9dof" type="imu_node.py" respawn="false" output="screen" ns="stereo_cam" if="$(arg use_imu_cam)">
+			<rosparam file="$(arg cam_razor_config_file)" command="load" />
+		</node>
+		<!-- Launch lidar -->
+		<include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" ns="lidar" if="$(arg use_velodyne)">
+			<arg name="calibration" default="$(find velodyne_pointcloud)/params/VLP16db.yaml" />
+			<arg name="cut_angle" default="-0.01" />
+			<arg name="device_ip" value="192.168.1.201" />
+			<arg name="frame_id" value="velodyne" />
+			<arg name="laserscan_resolution" default="0.007" />
+			<arg name="laserscan_ring" default="-1" />
+			<arg name="manager" value="velodyne_nodelet_manager" />
+			<arg name="max_range" default="130.0" />
+			<arg name="min_range" default="0.4" />
+			<arg name="pcap" default="" />
+			<arg name="port" default="2368" />
+			<arg name="read_fast" default="false" />
+			<arg name="read_once" default="false" />
+			<arg name="repeat_delay" default="0.0" />
+			<arg name="rpm" default="600.0" />
+		</include>
+		<!-- Launch GNSS -->
+		<node	name="gnss" pkg="ublox_gps" type="ublox_gps" output="screen" if="$(arg use_gnss)">
+			<rosparam command="load" file="$(find ai_robot_sensors)/config/gnss/$(arg gps_module).yaml" />
+			<param name="gnss_port" type="string" value="$(arg gps_dev)" />
+			<param name="gnss_frame_id" type="string" value="gnss" />
+		</node>
+	</group>
+
+	<node pkg="tf2_ros" type="static_transform_publisher" name="base_to_base" args="0.0 0.0 0.0 0.0 0.0 0.0 base_link base_frame" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="base_to_footprint" args="0 0 0 0 0 0 1 base_link base_footprint" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="base_to_imu" args="0 0 0 0 0 0 1 base_link sensors_imu_link" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="base_to_leftcam" args="0.2 0.1 0.0 0.0 0.0 0.0 base_frame left_camera_frame" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="base_to_lidar" args="0 0 0 0 0 0 1 base_link velodyne" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="base_to_quan" args="0 0 0 0 0 0 1 base_link quanergy" />
+
+	<node pkg="vicon_bridge" type="vicon_bridge" name="vicon" if="$(arg use_vicon)" output="screen">
+		<param name="datastream_hostport" value="$(arg vicon_ip)" />
+		<param name="stream_mode" value="ClientPull" type="str" />
+		<param name="tf_ref_frame_id" value="/world" type="str" />
+	</node>
+</launch>
+<!-- vim: set ft=xml noet : -->

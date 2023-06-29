@@ -1,0 +1,116 @@
+<launch>
+	<!-- Sensor enable/disable switch -->
+	<arg name="use_gnss" default="false" />
+	<arg name="use_imu_cam" default="false" />
+	<arg name="use_imu_center" default="true" />
+	<arg name="use_velodyne" default="true" />
+	<arg name="use_vicon" default="false" />
+	<arg name="use_vision" default="false" />
+
+	<!-- IMU parameters -->
+	<arg name="cam_razor_config_file" default="$(find ai_robot_sensors)/config/imu/razor_imu_9dof_01.yaml" />
+	<arg name="center_razor_config_file" default="$(find ai_robot_sensors)/config/imu/razor_imu_9dof_03.yaml" />
+
+	<!-- ZED camera parameters -->
+	<arg name="gpu_id" default="-1" />
+	<arg name="zed_cam_module" default="0" />
+	<arg name="zed_frame_rate" default="60" />
+	<arg name="zed_quality" default="3" />
+	<arg name="zed_resolution" default="2" /> <!-- 0=2k, 1=1080p, 2=720p 3=vga -->
+	<arg name="zed_sensing_mode" default="0" />
+	<arg name="zed_serial_number" default="17505" />
+
+	<!-- GNSS parameters -->
+	<arg name="gps_module" default="neo-m8p-2-10" doc="specifiy u-blox NEO-M8P-2-10 module" />
+	<arg name="gps_dev" default="/dev/ublox-m8p" />
+
+	<!-- Vicon parameters -->
+	<arg name="vicon_ip"	default="192.168.0.10:801" />
+
+	<group ns="sensors">
+		<!-- Launch IMU -->
+		<node	name="ext_imu" ns="stereo_cam" pkg="razor_imu_9dof" type="imu_node.py" respawn="false" output="screen" if="$(arg use_imu_cam)">
+			<rosparam file="$(arg cam_razor_config_file)" command="load" />
+		</node>
+		<node	name="imu" pkg="razor_imu_9dof" type="imu_node.py" respawn="false" output="screen" if="$(arg use_imu_center)">
+			<rosparam file="$(arg center_razor_config_file)" command="load" />
+		</node>
+		<!-- Launch ZED camera -->
+		<group ns="stereo_cam">
+			<node name="zed_wrapper_node" pkg="zed_wrapper" type="zed_wrapper_node" output="screen" required="true" if="$(arg use_vision)">
+				<param name="camera_model" value="$(arg zed_cam_module)" />
+				<!-- Publish odometry frame -->
+				<param name="publish_tf" value="false" />
+				<!-- SVO file path -->
+				<param name="svo_filepath" value="" />
+				<!-- ZED parameters -->
+				<param name="auto_exposure" value="true" />
+				<param name="confidence" value="100" />
+				<param name="depth_stabilization" value="1" />
+				<param name="exposure" value="100" />
+				<param name="frame_rate" value="$(arg zed_frame_rate)" />
+				<param name="gain" value="100" />
+				<param name="gpu_id" value="$(arg gpu_id)" />
+				<param name="odometry_db" value="" />
+				<param name="openni_depth_mode" value="0" />
+				<param name="quality" value="$(arg zed_quality)" />
+				<param name="resolution" value="$(arg zed_resolution)" /><!-- 0=2k 1=1080, 2=720 3=vga -->
+				<param name="sensing_mode" value="$(arg zed_sensing_mode)" />
+				<param name="serial_number" value="$(arg zed_serial_number)" />
+				<param name="zed_id" value="0" />
+				<!-- ROS topic names -->
+				<param name="rgb_topic" value="rgb/image_rect_color" />
+				<param name="rgb_raw_topic" value="rgb/image_raw_color" />
+				<param name="rgb_cam_info_topic" value="rgb/camera_info" />
+				<param name="rgb_cam_info_raw_topic" value="rgb/camera_info_raw" />
+				<param name="left_topic" value="left/image_rect_color" />
+				<param name="left_raw_topic" value="left/image_raw_color" />
+				<param name="left_cam_info_topic" value="left/camera_info" />
+				<param name="left_cam_info_raw_topic" value="left/camera_info_raw" />
+				<param name="right_topic" value="right/image_rect_color" />
+				<param name="right_raw_topic" value="right/image_raw_color" />
+				<param name="right_cam_info_topic" value="right/camera_info" />
+				<param name="right_cam_info_raw_topic" value="right/camera_info_raw" />
+				<param name="depth_topic" value="depth/depth_registered" />
+				<param name="depth_cam_info_topic" value="depth/camera_info" />
+				<param name="odometry_topic" value="odom" />
+				<param name="point_cloud_topic" value="point_cloud/cloud_registered" />
+			</node>
+		</group>
+		<!-- Launch lidar -->
+		<include ns="lidar" file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" if="$(arg use_velodyne)">
+		  <arg name="cut_angle" default="-0.01" />
+			<arg name="calibration" default="$(find velodyne_pointcloud)/params/VLP16db.yaml" />
+		  <arg name="device_ip" value="192.168.1.201" />
+		  <arg name="frame_id" value="velodyne" />
+		  <arg name="laserscan_resolution" default="0.007" />
+		  <arg name="laserscan_ring" default="-1" />
+		  <arg name="manager" value="velodyne_nodelet_manager" />
+		  <arg name="max_range" default="130.0" />
+		  <arg name="min_range" default="0.4" />
+		  <arg name="pcap" default="" />
+		  <arg name="port" default="2368" />
+		  <arg name="read_fast" default="false" />
+		  <arg name="read_once" default="false" />
+		  <arg name="repeat_delay" default="0.0" />
+		  <arg name="rpm" default="600.0" />
+		</include>
+		<!-- Launch GNSS -->
+		<node	name="gnss" pkg="ublox_gps" type="ublox_gps" output="screen" if="$(arg use_gnss)">
+			<rosparam command="load" file="$(find ai_robot_sensors)/config/gnss/$(arg gps_module).yaml" />
+			<param name="gnss_port" type="string" value="$(arg gps_dev)" />
+			<param name="gnss_frame_id" type="string" value="gnss" />
+		</node>
+	</group>
+
+	<node pkg="tf2_ros" type="static_transform_publisher" name="base_to_footprint" args="0 0 0 0 0 0 1 base_link base_footprint" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="base_to_imu" args="0 0 0 0 0 0 1 base_link base_imu_link" />
+	<node pkg="tf2_ros" type="static_transform_publisher" name="base_to_lidar" args="0 0 0 0 0 0 1 base_link velodyne" />
+
+	<node pkg="vicon_bridge" type="vicon_bridge" name="vicon" if="$(arg use_vicon)" output="screen">
+		<param name="datastream_hostport" value="$(arg vicon_ip)" />
+		<param name="stream_mode" value="ClientPull" type="str" />
+		<param name="tf_ref_frame_id" value="/world" type="str" />
+	</node>
+</launch>
+<!-- vim: set ft=xml noet : -->

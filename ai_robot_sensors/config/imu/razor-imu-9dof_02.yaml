@@ -1,0 +1,35 @@
+# razor-imu-9dof No.2
+
+## USB port
+port: /dev/razor-imu-9dof-02
+
+# ---- Calibration ----
+# -- accelerometer --
+accel_x_min: -267.33
+accel_x_max: 277.10
+accel_y_min: -274.4
+accel_y_max: 265.0
+accel_z_min: -273.44
+accel_z_max: 287.0
+
+# -- magnetometer --
+# standard calibration
+magn_x_min: -0.04
+magn_x_max: -0.04
+magn_y_min: -0.01
+magn_y_max: -0.01
+magn_z_min: 0.00
+magn_z_max: 0.00
+
+# extended calibration
+calibration_magn_use_extended: true
+magn_ellipsoid_center: [-52.2588, -715.915, -178.155]
+magn_ellipsoid_transform: [[0.816318, -0.0285904, 0..434020], [-0.0285904, 0.971267, 0.0837730], [0.043020, 0.0837730, 0.745475]]
+
+# AHRS to robot calibration
+imu_yaw_calibration: 0.0
+
+# -- gyroscope --
+gyro_average_offset_x: 0.0
+gyro_average_offset_y: 0.0
+gyro_average_offset_z: 0.0

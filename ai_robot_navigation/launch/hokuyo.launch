@@ -1,0 +1,94 @@
+<!-- This is a sample lanuch file, please change it based on your needs -->
+<launch>
+ <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+  <node name="pose_ekf" pkg="ai_robot_navigation" type="pose_ekf_node" respawn="false" output="screen">
+    <remap from="mavros/imu/data" to="sensors/imu" />
+    <!--remap from="RosAria/pose" to="sim_p3at/odom" /-->
+  </node>
+  <node name="brain" pkg="ai_robot_navigation" type="brain_node" respawn="false" output="screen">
+    <remap from="base_scan" to="sensors/scan" /> 
+    <!--remap from="RosAria/cmd_vel" to="sim_p3at/cmd_vel" /-->
+  </node>
+  <!--node name="remote_controller" pkg="remote_controller" type="remote_controller" respawn="false" output="screen"/-->  
+  <node name="joystick" pkg="joy" type="joy_node" respawn="false" output="screen">
+	<param name="dev"	value="/dev/input/js-btp2185" />
+  </node>  
+  <node name="obsavoid" pkg="ai_robot_navigation" type="obsavoid_node" respawn="false" output="screen">
+    <remap from="base_scan" to="sensors/scan" /> 
+    <!--remap from="/RosAria/pose" to="/sim_p3at/odom" /> 
+    <remap from="RosAria/cmd_vel" to="sim_p3at/cmd_vel" /-->
+  </node>
+<!--> <remap from="base_scan" to="scan" /node-->
+
+  <!--rosparam command="load" file="$(find navigation)/parameters/initial_param.yaml"/-->
+
+  <!--choose controller type-->
+  <param name="controllerType" value="0"/><!--0:PID,1:FuzzyPID,2:ADRC-->
+  <rosparam command="load" file="$(find ai_robot_navigation)/config/pid/params_control.yaml"/>
+  <rosparam command="load" file="$(find ai_robot_navigation)/config/oa/params.yaml"/>
+  <!--pose_ekf params-->
+  <param name="use_gps" value="0"/>
+  <param name="use_vicon" value="0"/>
+  <param name="errCamToDroneCenter" value="0.2"/>
+  <!-- 1.2 for small indoor wheel, 1 for large outdoor wheel-->
+  <param name="wheel_type" value="1.0"/>
+
+  <!--safe params-->
+  <param name="offline_threshold_time" value="3.0"/>
+  <param name="low_battery_threshold" value="10.0"/>
+
+  <!--poscontrol params-->
+  <param name="gravity" value="9.80665"/>
+  <!--unit:rad-->
+  <param name="max_angle" value="1.0"/>
+  <!--default horizontal acceleration in m/s/s-->
+  <param name="poscontrol_accel_xy" value="2.0"/>
+  <param name="poscontrol_speed" value="2.0"/>
+  <!--max horizontal acceleration in m/s/s that the position velocity controller-->
+  <param name="poscontrol_accel_xy_max" value="9.80"/>
+  <param name="max_target_distance" value="1.0"/>
+  <param name="sonar_lower_lp_threshold" value="0.2"/>
+  <param name="sonar_upper_lp_threshold" value="0.5"/>
+  <param name="feedforward_para" value="0.0"/>
+  <param name="use_opticalflow" value="1"/>
+  <param name="max_count_position" value="20"/>
+  <param name="mave_mode" value="1"/>
+  <!--visionhover switch-->
+  <param name="vision_hover_switch" value="1"/>
+
+  <!--visionhover params-->
+  <param name="resize_width" value="640"/>
+  <param name="resize_height" value="480"/>
+
+  <!--files path-->
+  <param name="obslog" value="$(find ai_robot_navigation)/src/obstacle_avoid/obslog.txt"/>
+  <param name="denKeyfPos" value="$(find ai_robot_navigation)/src/findpath/denKeyfPos_hokuyo.txt"/>
+  <param name="denKeyfPosRelation" value="$(find ai_robot_navigation)/src/findpath/denKeyfPosRelation_hokuyo.txt"/>
+  <param name="MapPointsPos" value="$(find ai_robot_navigation)/src/findpath/MapPointsPos_hokuyo.txt"/>
+  <param name="logfile" value="$(find ai_robot_navigation)/src/findpath/logfile.txt"/>
+  <param name="keyframe_params_filepath" value="$(find ai_robot_navigation)/config/findpath/params_keyframe.yaml"/>
+  <param name="pointToPointFile" value="$(find ai_robot_navigation)/src/pointtopoint/waypoints.txt"/>
+  <param name="posPIDPath" value="$(find ai_robot_navigation)/PIDParameter/hoverPosPID.txt"/>
+  <param name="velPIDPath" value="$(find ai_robot_navigation)/PIDParameter/hoverVelPID.txt"/>
+  <param name="trajectoryPIDPath" value="$(find ai_robot_navigation)/PIDParameter/trajectoryPID.txt"/>
+  <param name="trajectoryPointsPath" value="$(find ai_robot_navigation)/trajectoryPoints/trajectoryPoints.txt"/>
+  <param name="outfile1Path" value="$(find ai_robot_navigation)/Record/pos_vel_return.txt"/>
+  <param name="outfile2Path" value="$(find ai_robot_navigation)/Record/pos_vel_hover.txt"/>
+
+  <param name="drift_path" value="$(find ai_robot_navigation)/drift/drift.txt"/>
+  <param name="geoidsPath" value="$(find ai_robot_navigation)/src/pose_ekf/geoids"/>
+
+  <param name="altPIDPath" value="$(find ai_robot_navigation)/PIDParameter/altitudePID.txt"/>
+  <param name="velPIDPath" value="$(find ai_robot_navigation)/PIDParameter/altitudeVelPID.txt"/>
+  <param name="altFoutPath" value="$(find ai_robot_navigation)/Record/alt_error.txt"/>
+
+  <param name="intrinsicslPath" value="$(find ai_robot_navigation)/calibration/Intrinsicsl.xml"/>
+  <param name="intrinsicsrPath" value="$(find ai_robot_navigation)/calibration/Intrinsicsr.xml"/>
+  <param name="affinelPath" value="$(find ai_robot_navigation)/calibration/affinel.xml"/>
+  <param name="affinerPath" value="$(find ai_robot_navigation)/calibration/affiner.xml"/>
+  <param name="distortionlPath" value="$(find ai_robot_navigation)/calibration/distortionl.xml"/>
+  <param name="distortionrPath" value="$(find ai_robot_navigation)/calibration/distortionr.xml"/>
+
+  <remap from="/points" to="/Sensor/points" />
+</launch>
+<!-- vim: set ft=xml noet : -->

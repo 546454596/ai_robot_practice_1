@@ -1,0 +1,6 @@
+<!-- Huawei robot: start sensors and agv node -->
+<launch>
+  <include file="$(find autolabor_pro1_driver)/launch/driver.launch" />
+  <include file="$(find ai_robot_sensors)/launch/start_huawei.launch" />
+</launch>
+<!-- vim: set ft=xml noet : -->

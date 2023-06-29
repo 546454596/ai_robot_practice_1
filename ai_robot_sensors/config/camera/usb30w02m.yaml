@@ -1,0 +1,22 @@
+camera_name: 'USB30W02M'
+camera_frame_id: 'usb_cam'
+camera_vendor_id: '05a3'
+camera_model_id: '9210'
+
+# camera parameters, range: 0-255, -1 "leave alone"
+auto_white_balance: true
+autoexposure: true
+autofocus: false
+brightness: -1
+contrast: -1
+exposure: 100
+focus: -1
+framerate: 15
+gain: -1
+image_width: 640
+image_height: 480
+io_method: 'mmap' # mmap/read/userptr
+pixel_format: 'yuyv' # yuyv/uyvy/mjpeg/yuvmono10/rgb24
+saturation: -1
+sharpness: -1
+white_balance: 4000

@@ -1,0 +1,14 @@
+<launch>
+	<param name="robot_description" textfile="$(find ai_robot_sensors)/urdf/testbed04.urdf" />
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+	<node name="cartographer_node" pkg="cartographer_ros" type="cartographer_node" args="-configuration_directory $(find ai_robot_localization)/carto_configs -configuration_basename carto_slam_huawei.lua">
+	  <remap from="imu" to="sensors/imu" />
+	  <remap from="odom" to="RosAria/pose" />
+	  <remap from="points2" to="sensors/lidar/velodyne_points" />
+	  <remap from="fix" to="sensors/gnss/navSatFix" />
+	</node>
+	<node name="cartographer_occupancy_grid_node" pkg="cartographer_ros" type="cartographer_occupancy_grid_node" args="-resolution 0.05" />
+	<node name="posepub_node" pkg="ai_robot_localization" type="posepub" />
+	<node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find ai_robot_localization)/carto_configs/carto_demo_3d.rviz" />
+</launch>
+<!-- vim: set ft=xml noet : -->

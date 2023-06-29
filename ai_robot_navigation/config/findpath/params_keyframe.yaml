@@ -1,0 +1,53 @@
+%YAML:1.0
+topPercent: 1
+minKeyFdist: 1
+mappointSparse: 0.25
+maxlinkdist: 3.4
+
+#for find path, old potantial
+astartdist: 0.5
+bstartdist: 0.05
+aenddist: 3
+benddist: 0.05
+aobsdist: 1
+bobsdist: 2
+ 
+#cal potantial 2
+loneseg: 0.05
+
+##good params
+#dust1,zone0
+#topPercent: 0.25
+#minKeyFdist: 5.0
+#mappointSparse: 0.3
+#maxlinkdist: 520
+#
+#dust1,zone1
+#topPercent: 0.4
+#minKeyFdist: 8.0
+#mappointSparse: 0.5
+#maxlinkdist: 520
+#
+#glassroom,1
+#topPercent: 1
+#minKeyFdist: 0.6
+#mappointSparse: 0.1
+#
+#lab
+#topPercent: 1
+#minKeyFdist: 1
+#mappointSparse: 0.1
+#maxlinkdist: 6
+#
+#lab_orb_new
+#topPercent: 1
+#minKeyFdist: 1
+#mappointSparse: 0.15
+#maxlinkdist: 7
+#
+#lidar_cartographer
+#lab
+#topPercent: 1
+#minKeyFdist: 1
+#mappointSparse: 0.3
+#maxlinkdist: 3.4

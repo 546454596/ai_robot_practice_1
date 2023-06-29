@@ -1,0 +1,67 @@
+#sonar params
+use_sonar: false
+a00: 0.0
+a01: 0.5
+a10: 0.3
+a11: 0.9
+a20: 0.8
+a21: 0.6
+a30: 0.8
+a31: 0.6
+asonar: 2.0
+
+a_theta: 0.7
+b_alpha: 0.2
+c_dist: 0.125
+
+max_vx: 0.5
+max_rz: 0.87
+
+#lidar
+use_lidar: true
+view_safezone_lidar: true
+# detect range(m) = range_step_size(m) * timesofdeld, both 3d and 2d lidar
+obs_times_of_deld: 5
+# step size of each step in range in one direction, 2d
+range_step_size: 0.6
+# obs detect increment angle(rad), both 3d and 2d lidar
+obs_dangle: 0.035
+# diameter of search circle, both 3d and 2d lidar
+deld: 0.75
+# max turn speed default pi/2
+oa_max_angular_speed: 1.5708
+# tell program that data from -time_of_halfpi*pi/2 to time_of_halfpi*pi/2 is ok
+time_of_halfpi: 1.0
+
+#3d lidar
+use_lidar3d: false
+view_safezone_lidar3d: false
+# initial detection height of 3dlidar frame
+initial_height_of_lidar3d: 0.0
+# lidar's translation from base_link(m), for both 3d and 2d lidar
+lidar_x: 0.2
+lidar_y: 0
+lidar_z: 0
+#num of scan layer
+num_of_layers: 1
+#dead zone, radius of circle around robot you want to ignore
+deadzone: 0.2
+
+#tof
+use_tof: false
+view_safezone_tof: false
+#half field of view(rad), 0.52rad=30degree
+toffov: 0.52
+# detect range(m) = deld(m) * timesofdeld
+obs_times_of_deld_tof: 5
+# obs detect increment angle(rad)
+obs_dangle_tof: 0.035
+# search circle diameter
+deld_tof: 0.46
+# initial detection height of camera frame
+initial_height_of_cam: -0.42
+
+# datatype for viewer 3d
+#1-tof,rgbd
+#2-3d lidar
+data_type: 2

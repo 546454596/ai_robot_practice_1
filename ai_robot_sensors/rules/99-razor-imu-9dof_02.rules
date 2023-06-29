@@ -1,0 +1,1 @@
+KERNEL=="ttyACM*", ATTRS{idVendor}=="1b4f", ATTRS{idProduct}=="9d0f", ATTRS{serial}=="C364E56B5150334C414A2020FF011226", MODE:="0666", GROUP:="dialout", SYMLINK+="razor-imu-9dof-02"

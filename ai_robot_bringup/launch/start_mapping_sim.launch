@@ -1,0 +1,18 @@
+<!-- Start core modules for map build in simulation -->
+<launch>
+    <!-- Start localization modules -->
+	<include file="$(find ai_robot_localization)/launch/carto_3d_slam.launch" if="$(eval arg('loc_method')=='carto_3d')" />
+	<include file="$(find ai_robot_localization)/launch/carto_2d_slam.launch" if="$(eval arg('loc_method')=='carto_2d')" />
+	<include file="$(find ai_robot_localization)/launch/orbslam_simmap.launch" if="$(eval arg('loc_method')=='orb_slam')">
+    <arg name="map_folder" value="$(arg map_path)"/>
+  </include> 
+
+  <!--save -->
+  <node name="savemap" pkg="ai_robot_navigation"  type="savemapfromcarto.sh" output="screen" respawn="false" args="$(arg map_path)" unless="$(eval arg('loc_method')=='orb_slam')">
+  </node>
+
+    <!--nav-->
+  <include file="$(find ai_robot_navigation)/launch/justmove.launch">
+  </include> 
+</launch>
+<!-- vim: set ft=xml noet : -->

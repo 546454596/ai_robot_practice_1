@@ -1,0 +1,17 @@
+camera_name: 'USBFHD01M_720p'
+camera_frame_id: 'usb_cam'
+camera_vendor_id: '05a3'
+camera_model_id: '9230'
+
+# camera parameters, 0-255, -1 "leave alone"
+auto_white_balance: true
+autoexposure: true
+brightness: -1
+contrast: -1
+framerate: 60
+io_method: 'mmap' # mmap/read/userptr
+image_width: 1280
+image_height: 720
+pixel_format: 'yuyv' # yuyv/uyvy/mjpeg/yuvmono10/rgb24
+saturation: -1
+sharpness: -1

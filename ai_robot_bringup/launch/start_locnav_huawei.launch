@@ -1,0 +1,22 @@
+<!-- Huawei robot: start modules for localization and navigation -->
+<launch>
+  <!--Start sensors and agv -->
+  <include file="$(find ai_robot_bringup)/launch/start_base_huawei.launch" />
+
+  <!--Start localization modules -->
+  <include file="$(find ai_robot_localization)/launch/carto_loc_huawei.launch">
+    <arg name="init_pose_file" value="$(arg init_pose_file)" />
+    <arg name="load_state_filename" value="$(arg load_state_filename)" />
+  </include>
+
+  <!-- Start navigation modules -->
+  <include file="$(find huawei_nav)/launch/start.launch">
+    <arg name="keyf" value="$(arg keyf)" />
+    <arg name="keyfrelation" value="$(arg keyfrelation)" />
+    <arg name="mappoint" value="$(arg mappoint)" />
+    <arg name="waittime" value="$(arg waittime)" />
+  </include>
+
+  <node name="record_traj" pkg="huawei_nav" type="rec_traj.py" output="screen" />
+</launch>
+<!-- vim: set ft=xml noet : -->

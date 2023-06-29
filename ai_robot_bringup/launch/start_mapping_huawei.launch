@@ -1,0 +1,15 @@
+<!-- Huawei robot: start modules for map build -->
+<launch>
+    <!--Start sensors and agv-->
+    <include file="$(find ai_robot_bringup)/launch/start_base_huawei.launch" />
+
+    <!-- Start localization modules -->
+    <include file="$(find ai_robot_localization)/launch/carto_slam_huawei.launch" />
+
+    <!-- Start navigation modules -->
+    <include file="$(find huawei_nav)/launch/start.launch" />
+
+    <!-- Start map saving module -->
+    <node name="savemap" pkg="huawei_nav"  type="savemapfromcarto.sh" output="screen" respawn="false" />
+</launch>
+<!-- vim: set ft=xml noet : -->

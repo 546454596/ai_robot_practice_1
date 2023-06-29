@@ -1,0 +1,79 @@
+
+<!-- Start ZED camrea, IMU and GNSS -->
+<launch>
+  <arg name="no_gnss" default="false" />
+  <arg name="no_imu" default="false" />
+  <arg name="no_vision" default="false" />
+
+  <!-- IMU parameters -->
+  <arg name="razor_config_file" default="$(find razor_imu_9dof)/config/my_razor.yaml" />
+
+  <!-- Zed Cam parameters -->
+  <arg name="gpu_id" default="-1" />
+  <arg name="zed_cam_module" default="0" />
+  <arg name="zed_frame_rate" default="60" />
+  <arg name="zed_quality" default="3" />
+  <arg name="zed_resolution" default="2" /> <!-- 0=2k, 1=1080p, 2=720p, 3=vga -->
+  <arg name="zed_sensing_mode" default="0" />
+  <arg name="zed_serial_number" default="17505" />
+
+  <!-- GNSS parameters -->
+  <arg name="gps_module" default="neo-m8p-2-10" doc="specifiy u-blox NEO-M8P-2-10 module" />
+  <arg name="gps_dev" default="/dev/ublox-m8p" />
+
+  <!-- Launch imu -->
+  <node	name="imu_node" pkg="razor_imu_9dof" type="imu_node.py" respawn="false" output="screen" unless="$(arg no_imu)">
+    <rosparam file="$(arg razor_config_file)" command="load" />
+  </node>
+
+  <!-- Launch ZED camera -->
+  <group ns="zed">
+    <node ame="zed_wrapper_node" pkg="zed_wrapper" type="zed_wrapper_node" output="screen" required="true" unless="$(arg no_vision)">
+      <param name="camera_model" value="$(arg zed_cam_module)" />
+      <!-- Publish odometry frame -->
+      <param name="publish_tf" value="false" />
+      <!-- SVO file path -->
+      <param name="svo_filepath" value="" />
+      <!-- ZED parameters -->
+      <param name="auto_exposure" value="true" />
+      <param name="confidence" value="100" />
+      <param name="depth_stabilization" value="1" />
+      <param name="exposure" value="100" />
+      <param name="frame_rate" value="$(arg zed_frame_rate)" />
+      <param name="gain" value="100" />
+      <param name="gpu_id" value="$(arg gpu_id)" />
+      <param name="odometry_db" value="" />
+      <param name="openni_depth_mode" value="0" />
+      <param name="quality" value="$(arg zed_quality)" />
+      <param name="resolution" value="$(arg zed_resolution)" /> <!-- 0=2k, 1=1080p, 2=720p, 3=vga -->
+      <param name="sensing_mode" value="$(arg zed_sensing_mode)" />
+      <param name="serial_number" value="$(arg zed_serial_number)" />
+      <param name="zed_id" value="0" />
+      <!-- ROS topic names -->
+      <param name="rgb_topic" value="rgb/image_rect_color" />
+      <param name="rgb_raw_topic" value="rgb/image_raw_color" />
+      <param name="rgb_cam_info_topic" value="rgb/camera_info" />
+      <param name="rgb_cam_info_raw_topic" value="rgb/camera_info_raw" />
+      <param name="left_topic" value="left/image_rect_color" />
+      <param name="left_raw_topic" value="left/image_raw_color" />
+      <param name="left_cam_info_topic" value="left/camera_info" />
+      <param name="left_cam_info_raw_topic" value="left/camera_info_raw" />
+      <param name="right_topic" value="right/image_rect_color" />
+      <param name="right_raw_topic" value="right/image_raw_color" />
+      <param name="right_cam_info_topic" value="right/camera_info" />
+      <param name="right_cam_info_raw_topic" value="right/camera_info_raw" />
+      <param name="depth_topic" value="depth/depth_registered" />
+      <param name="depth_cam_info_topic" value="depth/camera_info" />
+      <param name="odometry_topic" value="odom" />
+      <param name="point_cloud_topic" value="point_cloud/cloud_registered" />
+    </node>
+  </group>
+
+  <!-- launch GNSS -->
+  <node	name="gnss_node" pkg="ublox_gps" type="ublox_gps" output="screen" unless="$(arg no_gnss)">
+    <rosparam command="load" file="$(find drone_sensor)/config/gnss/$(arg gps_module).yaml" />
+    <param name="gnss_port" type="string" value="$(arg gps_dev)" />
+    <param name="gnss_frame_id" type="string" value="gnss" />
+  </node>
+</launch>
+<!-- vim: set ft=xml noet : -->

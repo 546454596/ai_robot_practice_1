@@ -1,0 +1,24 @@
+<!-- Start all core featurs -->
+<launch>
+	<arg name="agv" default="ranger" />
+  <arg name="urdf_file" default="$(find xacro)/xacro '$(find ai_robot_sensors)/urdf/pioneer3at.urdf'" />
+
+	<!-- Start agv -->
+  <!-- <include file="$(find ranger_bringup)/launch/ranger_minimal.launch" if="$(eval arg('agv') == 'ranger')" /> -->
+  <include file="$(find ranger_bringup)/launch/ranger_minimal.launch" if="$(eval arg('agv') == 'ranger')" />
+
+	<!-- Start robot state publisher -->
+  <param name="robot_description" command="$(arg urdf_file)" />
+  <node name="cartorobot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  <!-- Start sensors -->
+  <include file="$(find ai_robot_sensors)/launch/start_all_kewei.launch" />
+
+  <!-- Start nav demo -->
+	<include file="$(find ai_robot_nav_demo)/launch/brainnav.launch" />
+
+  <!-- Start navigation core -->
+	<include file="$(find ai_robot_navigation)/launch/globalnav.launch" />
+  <include file="$(find ai_robot_navigation)/launch/obsavoid.launch" />
+</launch>
+<!-- vim: set ft=xml noet : -->

@@ -1,0 +1,7 @@
+%YAML:1.0
+# mode, 0-orb, 1-cartographer
+DEALMODE: 0
+topPercent: 1
+minKeyFdist: 0.5
+mappointSparse: 0.4
+maxlinkdist: 9

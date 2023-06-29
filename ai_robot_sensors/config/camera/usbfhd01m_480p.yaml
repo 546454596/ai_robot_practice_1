@@ -1,0 +1,19 @@
+camera_name: 'USBFHD01M_480p'
+camera_frame_id: 'usb_cam'
+camera_vendor_id: '05a3'
+camera_model_id: '9230'
+
+# camera parameters, range: 0-255, -1 for "leave alone"
+auto_white_balance: false
+autoexposure: false
+brightness: -1
+contrast: -1
+exposure: 80
+framerate: 60
+io_method: 'mmap' # mmap/read/userptr
+image_width: 640
+image_height: 480
+pixel_format: 'yuyv' # yuyv/uyvy/mjpeg/yuvmono10/rgb24
+saturation: -1
+sharpness: -1
+white_balance: 4000

@@ -1,0 +1,8 @@
+<!-- Huawei robot: start modules for moving around only -->
+<launch>
+    <!-- Start sensors and agv -->
+    <include file="$(find ai_robot_bringup)/launch/start_base_huawei.launch" />
+    <!-- Start localization and navigation moduels for justmove --> 
+    <include file="$(find ai_robot_navigation)/launch/justmove.launch" />
+</launch>
+<!-- vim: set ft=xml noet : -->

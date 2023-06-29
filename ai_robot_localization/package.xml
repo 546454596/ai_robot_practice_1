@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ai_robot_localization</name>
+  <version>0.1.0</version>
+  <description>ai_robot locolization module based on cartographer.</description>
+  <author email="gongzheng@sjtu.edu.cn">GONG Zheng</author>
+  <maintainer email="gongzheng@sjtu.edu.cn">GONG Zheng</maintainer>
+  <maintainer email="xmj@sjtu.edu.cn">Xu Minjie</maintainer>
+  <license>TODO</license>
+  <url type="website">https://bat.sjtu.edu.cn</url>
+  <url type="repository">http://wiki.ros.org/ai_robot_localization</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>cartographer_ros</depend>
+</package>

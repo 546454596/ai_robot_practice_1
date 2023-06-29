@@ -1,0 +1,1 @@
+rosbag record -O orb /sim_p3at/cmd_vel /gt_posetwist /slam/pose

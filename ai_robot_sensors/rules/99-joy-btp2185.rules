@@ -1,0 +1,1 @@
+KERNEL=="js*", ATTRS{idVendor}=="045e", ATTRS{idProduct}=="028e", MODE:="0666", GROUP:="dialout",  SYMLINK+="input/js-btp2185"

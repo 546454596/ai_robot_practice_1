@@ -1,0 +1,23 @@
+<launch>
+  <param name="robot_description" textfile="$(find ai_robot_sensors)/urdf/testbed04.urdf" />
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  <arg name="load_state_filename" default="$(find ai_robot_localization)/carto_maps/lab.pbstream" />
+  <node name="cartographer_node" pkg="cartographer_ros" type="cartographer_node" output="screen"
+      args="-configuration_directory $(find ai_robot_localization)/carto_configs -configuration_basename carto_3d_loc_testbed04.lua -load_state_filename $(arg load_state_filename) -start_trajectory_with_default_topics=false">
+    <remap from="imu" to="sensors/imu" />
+    <remap from="points2" to="sensors/lidar/points" />
+  </node>
+
+  <arg name="urdf_file" default="$(find xacro)/xacro '$(find huawei_nav)/rviz_cfg/pioneer3at.urdf'" />
+  <param name="robot_description" command="$(arg urdf_file)" /> 
+
+  <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros" type="cartographer_occupancy_grid_node" args="-resolution 0.05" />
+  <node name="posepub_node" pkg="cartographer_ros" type="posepub" />
+
+  <arg name="init_pose_file" default="$(find huawei_nav)/../../../Record/map/test1/init_pose.txt" />
+
+  <node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find ai_robot_localization)/carto_configs/carto_demo_3d.rviz" />
+</launch>
+<!-- vim: set ft=xml noet : -->

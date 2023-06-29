@@ -1,0 +1,30 @@
+<!-- Start localization and navigation modules for gazebo simulation -->
+<launch>
+  <!-- Start localization modules -->
+  <include file="$(find ai_robot_localization)/launch/carto_3d_loc.launch" if="$(eval arg('loc_metod') == 'carto_3d')">
+    <arg name="init_pose_file" value="$(arg init_pose_file)"/>
+    <arg name="load_state_filename" value="$(arg map_path)/map.pbstream"/>
+  </include>
+  
+  <include file="$(find ai_robot_localization)/launch/carto_2d_loc.launch" if="$(eval arg('loc_method') == 'carto_2d')">
+    <arg name="load_state_filename" value="$(arg map_path)/map.pbstream"/>
+  </include>
+
+  <include file="$(find ai_robot_localization)/launch/orbslam_simloc.launch" if="$(eval arg('loc_method') == 'orb_slam')">
+    <arg name="map_folder" value="$(arg map_path)"/>
+  </include>
+
+    <!-- Start navigation modules -->
+  <include file="$(find ai_robot_navigation)/launch/globalnavsim.launch">
+    <arg name="keyf" value="$(arg keyf)"/>
+    <arg name="keyfrelation" value="$(arg keyfrelation)"/>
+    <arg name="map_point" value="$(arg map_point)"/>
+  </include>
+
+    <!-- Start obstacle avoidance modules -->
+  <include file="$(find ai_robot_navigation)/launch/obsavoidsim.launch" if="$(eval arg('obs_method') == 'simpleobs')">
+    <arg name="param_file" value="$(arg param_file)"/>
+    <arg name="three_d" value="$(arg three_d)" />
+  </include>
+</launch>
+<!-- vim: set ft=xml noet : -->

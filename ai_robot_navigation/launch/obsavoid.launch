@@ -1,0 +1,23 @@
+<!---->
+<launch>
+  <arg name="sim" default="false"/>
+  <arg name="threeD" default="false"/>
+  <arg name="point_cloud_topic" default="sensors/lidar/points"/>
+  <arg name="paramfile" default="params_hokuyo.yaml"/>
+
+  <rosparam command="load" file="$(find ai_robot_navigation)/config/oa/$(arg paramfile)"/>
+	<param name="oalog_filepath" value="$(env HOME)/.ros/log/ai_robot_navigation_oa.log"/>
+
+  <node name="obsavoid" pkg="ai_robot_navigation" type="obsavoid_node" respawn="false" output="screen">
+    <remap from="base_scan" to="sensors/scan" unless="$(arg sim)"/>
+    <remap from="base_scan" to="scan" if="$(arg sim)"/>
+    <remap from="points" to="$(arg point_cloud_topic)" unless="$(arg sim)"/>
+    <remap from="RosAria/pose" to="sim_p3at/odom" if="$(arg sim)"/>
+    <remap from="RosAria/cmd_vel" to="sim_p3at/cmd_vel" if="$(arg sim)"/>
+  </node>
+
+  <node name="pointcloud_viewer_node" pkg="ai_robot_navigation" type="pointcloud_viewer_node" respawn="false" output="screen" if="$(arg threeD)">
+    <remap from="points" to="$(arg point_cloud_topic)" />
+  </node>
+</launch>
+<!-- vim: set ft=xml noet : -->

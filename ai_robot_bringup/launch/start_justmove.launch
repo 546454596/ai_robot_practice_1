@@ -1,0 +1,17 @@
+<!-- Launch file for just manually moving around -->
+<launch>
+	<arg name="agv" default="ranger_mini"/>
+  <arg name="urdf_file" default="$(find xacro)/xacro '$(find ai_robot_sensors)/urdf/pioneer3at.urdf'" />
+
+  <!-- Start agv -->
+  <include file="$(find ranger_bringup)/launch/ranger_minimal.launch" if="$(eval arg('agv') == 'ranger')" />
+
+	<!-- Start robot state publisher -->
+  <param name="robot_description" command="$(arg urdf_file)" />
+  <node name="cartorobot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  <!-- Start sensors -->
+  <include file="$(find ai_robot_sensors)/launch/start_all.launch"/>
+  <include file="$(find ai_robot_navigation)/launch/justmove.launch"/>
+</launch>
+<!-- vim: set ft=xml noet : -->

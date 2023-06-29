@@ -1,0 +1,18 @@
+<!-- This is a sample lanuch file, please change it based on your needs -->
+<launch>
+  <node name="brain" pkg="ai_robot_navigation" type="testfindpath" respawn="false" output="screen"/> 
+  <!--node name="brain" pkg="ai_robot_navigation" type="brain_node" respawn="false" output="screen"/--> 
+
+  <param name="paramfile" value="$(find ai_robot_navigation)/configs/params_test_findpath.yaml"/>
+
+  <arg name="filepath" default="$(find ai_robot_navigation)/src/gennodemap/Result/2.0_3.0/"/>
+
+  <param name="logfilepath" value="$(arg filepath)log.txt"/>
+  <!--files path-->
+  <param name="denKeyfPos" value="$(arg filepath)denKeyfPos1.txt"/>
+  <param name="denKeyfPosRelation" value="$(arg filepath)denKeyfPosRelation1.txt"/>
+  <param name="MapPointsPos" value="$(arg filepath)../MapPointsPos.txt"/>
+  <param name="logfile" value="$(arg filepath)logfile.txt"/>
+  <param name="keyframe_params_filepath" value="$(find ai_robot_navigation)/config/findpath/params_keyframe.yaml"/>
+</launch>
+<!-- vim: set ft=xml noet : -->

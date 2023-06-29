@@ -1,0 +1,14 @@
+<!-- Start all modules for map build compressed version -->
+<launch>
+  <!-- Start localization module -->
+  <include file="$(find ai_robot_localization)/launch/carto_2d_slam.launch" if="$(eval arg('loc_method') == 'carto_2d')" />
+  <include file="$(find ai_robot_localization)/launch/carto_3d_slam.launch" if="$(eval arg('loc_method') == 'carto_3d')" />
+  <include file="$(find ai_robot_localization)/launch/orbslam_mapcompress.launch" if="$(eval arg('loc_method') == 'orb_slam')">
+    <arg name="map_folder" value="$(arg map_path)"/>
+  </include> 
+
+  <!-- Start map saving module if localization method is not orb slam -->
+  <node name="savemap" pkg="ai_robot_navigation"  type="savemapfromcarto.sh" output="screen" respawn="false" args="$(arg map_path)" unless="$(eval arg('loc_method') == 'orb_slam')">
+  </node>
+</launch>
+<!-- vim: set ft=xml noet : -->

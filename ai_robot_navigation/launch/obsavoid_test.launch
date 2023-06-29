@@ -1,0 +1,20 @@
+<!---->
+<launch>
+  <arg name="threeD" default="false"/>
+  <arg name="paramfile" default="params_quanergy.yaml"/>
+  <arg name="point_cloud_topic" default="sensors/lidar/points"/>
+  <rosparam command="load" file="$(find ai_robot_navigation)/config/oa/$(arg paramfile)"/>
+  <param name="obslog" value="$(find ai_robot_navigation)/log/obslog.txt"/>
+  <node name="obsavoid" pkg="ai_robot_navigation" type="obsavoid_node" respawn="false" output="screen">
+    <remap from="base_scan" to="sensors/scan" /> 
+    <!--remap from="points" to="sensors/lidar/points" />-->
+    <remap from="points" to="$(arg point_cloud_topic)" />
+    <!--remap from="RosAria/pose" to="sim_p3at/odom" /--> 
+    <!--remap from="RosAria/cmd_vel" to="sim_p3at/cmd_vel" /-->
+  </node>
+
+  <node name="pointcloud_viewer_node" pkg="ai_robot_navigation" type="pointcloud_viewer_node" respawn="false" output="screen" if="$(arg threeD)">
+    <remap from="points" to="sensors/lidar/points" />
+  </node> 
+
+</launch>

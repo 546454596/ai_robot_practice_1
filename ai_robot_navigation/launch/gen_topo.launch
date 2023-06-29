@@ -1,0 +1,6 @@
+<launch>
+  <param name="/use_sim_time" value="true" />
+  <arg name="mapfolder" default="/home/xuewuyang/tmps/test/"/>
+  <node name="gennodemap_node" pkg="ai_robot_navigation" type="gennodemap_node" args="$(find ai_robot_navigation)/config/gennodemap/params_keyframe.yaml" output="screen"/>
+</launch>
+<!-- vim: set ft=xml noet : -->

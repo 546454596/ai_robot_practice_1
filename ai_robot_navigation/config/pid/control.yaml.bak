@@ -1,0 +1,33 @@
+#for PID & fuzzyPID
+  altitudeP: 0.75
+  altitudeI: 0.0
+  altitudeD: 0.05
+  altitudeImax: 0.3
+
+  yawP: 0.2
+  yawI: 0
+  yawD: 0.02
+
+  hoverPosP: 2.5
+  hoverPosI: 0.0
+  hoverPosD: 0.0
+  hoverPosImax: 0.3
+
+  hoverVelP: 0.8
+  hoverVelI: 0.0
+  hoverVelD: 0.0
+  hoverVelImax: 0.5
+
+  trajectoryP: 1.5
+  trajectoryI: 0.0
+  trajectoryD: 2.0
+  trajectoryImax: 0.3
+#for ADRC
+  altitudeVelWo: 0.8
+  altitudeVelWc: 0.05
+  altitudeVelB0: 0
+
+  hoverVelWo: 1.5
+  hoverVelWc: 0.0
+  hoverVelB0: 0.02
+
