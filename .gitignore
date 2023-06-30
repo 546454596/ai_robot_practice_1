@@ -4,6 +4,8 @@ ai_robot_navigation/src/gennodemap/Input/
 ai_robot_navigation/src/gennodemap/Result/
 
 *.logfile.txt
+.vscode
+.idea
 ## C++
 # Prerequisites
 *.d
