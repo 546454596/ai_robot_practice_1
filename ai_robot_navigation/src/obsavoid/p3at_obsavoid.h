@@ -22,7 +22,7 @@
 #include <sensor_msgs/PointCloud2.h>
 #include <ros/ros.h>
 
-#include "ai_robot_interface/restart_nav.h"
+#include "ai_robot_interfaces/restart_nav.h"
 #include "octree.h"
 #include "utils/math_aux.h"
 

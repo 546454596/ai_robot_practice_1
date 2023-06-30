@@ -26,7 +26,7 @@
 #include <std_msgs/Int16.h>
 #include <std_msgs/Int32.h>
 
-#include "ai_robot_interface/set_destination.h"
+#include "ai_robot_interfaces/set_destination.h"
 #include "findpath/findpath_srm.h"
 #include "point_to_point/point_to_point.h"
 #include "pos_control.h"

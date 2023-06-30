@@ -13,8 +13,8 @@ find_package(GeographicLib REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(PCL REQUIRED COMPONENTS common filters io visualization)
 find_package(catkin REQUIRED COMPONENTS
-  # ai_robot_interface already includs std_msgs, geometry_msgs, nav_msgs and sensor_msgs required
-  ai_robot_interface
+  # ai_robot_interfaces already includs std_msgs, geometry_msgs, nav_msgs and sensor_msgs required
+  ai_robot_interfaces
   cv_bridge
   image_transport
   mavros_msgs
@@ -139,18 +139,18 @@ target_link_libraries(set_destination_client
 
 install(
   TARGETS
-  brain_node
-  gennodemap_node
-  obsavoid_node
-  pointcloud_viewer_node
-  pose_ekf_node
-  set_destination_client
-  test_findpath
+    brain_node
+    gennodemap_node
+    obsavoid_node
+    pointcloud_viewer_node
+    pose_ekf_node
+    set_destination_client
+    test_findpath
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
 install(DIRECTORY launch
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
