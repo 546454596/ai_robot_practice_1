@@ -542,6 +542,7 @@ void AiBrain::taskCancelCallback(std_msgs::Empty::ConstPtr msg) {
   abortObstacleAvoidance();
   tasknum_ = kLandTask;
   is_hover_stable_ = false;
+  motion_status_ = MotionStatus::kUnlocked;
 }
 
 // Do not publish empty string, use service instead
