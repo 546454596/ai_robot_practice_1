@@ -64,8 +64,8 @@ void AiBrain::initPublishersAndSubscribers() {
 void AiBrain::think() {
   double dt = ros::Time::now().toSec() - pid_time_.toSec();
   pid_time_ = ros::Time::now();
-  givePosToFindPathTask();
-  findpath_srm_.displayPointCloud();
+  givePosToFindPathTask(); // transform world‘s pose to slam’s pose， and calculate pose for display
+  findpath_srm_.displayPointCloud(); // display pose， toponode and path etc.
   posctl_.setState(pose_xyz_now_, vel_xyz_now_, yaw_now_);
 
   switch (tasknum_) {
@@ -383,7 +383,8 @@ void AiBrain::qtSlamWorldCallback(const geometry_msgs::PoseStamped::ConstPtr& ms
 
   std::cout << "{" << r_worldslam_[0] << ", " << r_worldslam_[1] << ", " << r_worldslam_[2] << '\n' << r_worldslam_[3]
       << ", " << r_worldslam_[4] << ", " << r_worldslam_[5] << '\n' << r_worldslam_[6] << ", " << r_worldslam_[7] << ", "
-      << r_worldslam_[8] << "}" << '\n'; }
+      << r_worldslam_[8] << "}" << '\n'; 
+  }
 
 void AiBrain::moveBaseGoalCallback(const geometry_msgs::PoseStamped::ConstPtr& msg) {
   ROS_INFO("[AiBrain] Set destination");
