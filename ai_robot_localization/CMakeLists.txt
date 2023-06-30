@@ -11,9 +11,6 @@ catkin_package(
   cartographer_ros
 )
 
-catkin_install_python(
-  PROGRAMS
-    nodes/init_carto_loc
-    nodes/posepub
+catkin_install_python(PROGRAMS nodes/init_carto_loc nodes/posepub
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
