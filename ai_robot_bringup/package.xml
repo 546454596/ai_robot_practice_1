@@ -9,5 +9,7 @@
   <url type="repository">http://wiki.ros.org/ai_robot_sensors</url>
 
   <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>ai_robot_sensors</exec_depend>
+  <exec_depend>ai_robot_localization</exec_depend>
   <exec_depend>ai_robot_navigation</exec_depend>
 </package>
