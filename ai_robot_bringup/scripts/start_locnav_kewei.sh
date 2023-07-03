@@ -86,4 +86,4 @@ if ! _ifup can0; then
   sudo ip link set can0 up type can bitrate 500000
 fi
 
-roslaunch ai_robot_bringup start_locnav_kewei.launch map_path:=${MapFolder}/ init_pose_file:=${MapFolder}/traj0_endpose.txt keyf:=${MapFolder}/Topomap/denKeyfPos.txt keyfrelation:=${MapFolder}/Topomap/denKeyfPosRelation.txt mappoint:=${MapFolder}/Topomap/MapPointsPos.txt pointToPointFilePath:=${MapFolder}/waypoints.txt threeD:=${threed} paramfile:=${paramfile} agv:=${agv} loc_method:=${loc_method} vision:=${vision} velodyne:=${velodyne} hokuyo:=${hokuyo} quanergy:=${quanergy} point_cloud_topic:=${point_cloud_topic}
+roslaunch ai_robot_bringup start_locnav_kewei.launch map_path:=${mapdir}/ init_pose_file:=${mapdir}/traj0_endpose.txt keyf:=${mapdir}/Topomap/denKeyfPos.txt keyfrelation:=${mapdir}/Topomap/denKeyfPosRelation.txt mappoint:=${mapdir}/Topomap/MapPointsPos.txt pointToPointFilePath:=${mapdir}/waypoints.txt threeD:=${threed} paramfile:=${paramfile} agv:=${agv} loc_method:=${loc_method} vision:=${vision} velodyne:=${velodyne} hokuyo:=${hokuyo} quanergy:=${quanergy} point_cloud_topic:=${point_cloud_topic}
