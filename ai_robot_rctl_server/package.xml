@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ai_robot_rctl_server</name>
+  <version>0.1.0</version>
+  <description>AI Robot remote control server.</description>
+  <author email="xmj@sjtu.edu.cn">Xue Wuyang</author>
+  <maintainer email="xmj@sjtu.edu.cn">Minjie Xu</maintainer>
+  <license>TODO</license>
+  <url type="website">https://bat.sjtu.edu.cn</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>nav_msgs</build_depend>
+  <build_depend>std_msgs</build_depend>
+
+  <exec_depend>message_runtime</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+
+  <export></export>
+</package>
