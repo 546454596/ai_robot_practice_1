@@ -38,5 +38,10 @@
 		<arg name="paramfile" value="$(arg paramfile)"/>
 		<arg name="point_cloud_topic" value="$(arg point_cloud_topic)"/>
 	</include>
+
+	<!-- Launch rosbridge for remote control -->
+	<include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+		<arg name="output" value="log"/>
+	</include>
 </launch>
 <!-- vim: set ft=xml noet : -->
