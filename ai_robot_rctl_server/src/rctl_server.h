@@ -11,6 +11,7 @@ public:
   virtual ~RemoteControlServer();
 
 private:
+  void getMapFilename();
   void publishMapMetaData(const nav_msgs::OccupancyGrid::ConstPtr &msg);
   void initPublishersAndSubscribers();
 
