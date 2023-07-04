@@ -5,7 +5,7 @@
   
   <arg name="load_state_filename" default="$(env HOME)/test" />
   <node name="cartographer_node" pkg="cartographer_ros" type="cartographer_node"
-      args=" -configuration_directory $(find ai_robot_localization)/carto_configs -configuration_basename carto_2d_loc_testbed04.lua -load_state_filename $(arg load_state_filename)">
+      args="-configuration_directory $(find ai_robot_localization)/carto_configs -configuration_basename carto_2d_loc_testbed04.lua -load_state_filename $(arg load_state_filename)">
     <remap from="imu" to="sensors/imu" />
     <remap from="odom" to="RosAria/pose" />
     <remap from="scan" to="sensors/scan" />

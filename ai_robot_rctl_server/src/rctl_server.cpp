@@ -8,7 +8,9 @@ using ai_robot_rctl_server::RctlMapMetaData;
 
 RemoteControlServer::RemoteControlServer(const ros::NodeHandle& nh)
     : nh_(nh) {
-  nh_.getParam("/map_filename", map_filename_);
+  std::string map_config;
+  nh_.getParam("/map_config", map_config);
+  map_filename_ = map_config.substr(0, map_config.find_last_of("."));
   initPublishersAndSubscribers();
 }
 
