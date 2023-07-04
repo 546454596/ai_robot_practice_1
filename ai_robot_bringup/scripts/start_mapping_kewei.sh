@@ -47,7 +47,7 @@ agv=$(yad --width 500 --entry --title "Choose AGV" \
 
 echo "AGV: ${agv}"
 
-if ! _ifup(can0); then
+if ! _ifup can0; then
   sudo ip link set can0 up type can bitrate 500000
 fi
 

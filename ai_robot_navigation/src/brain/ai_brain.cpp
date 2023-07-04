@@ -560,8 +560,8 @@ void AiBrain::publishGoalReached() {
   remote_goal_reached_pub_.publish(n);
 }
 
-bool AiBrain::setDestinationCallback(ai_robot_interface::set_destination::Request& req,
-                                     ai_robot_interface::set_destination::Response& res) {
+bool AiBrain::setDestinationCallback(ai_robot_interfaces::set_destination::Request& req,
+                                     ai_robot_interfaces::set_destination::Response& res) {
   transformNwuWorldFromBody(req.x, req.y, req.z, pose_xyz_dest_[0], pose_xyz_dest_[1], pose_xyz_dest_[2], r_worldslam_,
                             t_worldslam_); float pos_slam[3];
   transformBodyFromNwuWorld(pos_slam[0], pos_slam[1], pos_slam[2], pose_xyz_now_[0], pose_xyz_now_[1], pose_xyz_now_[2],

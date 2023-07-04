@@ -2,10 +2,13 @@
 ai_robot_navigation/src/gennodemap/build/
 ai_robot_navigation/src/gennodemap/Input/
 ai_robot_navigation/src/gennodemap/Result/
-
+logfile.txt
 *.logfile.txt
+
+## IDE
 .vscode
 .idea
+
 ## C++
 # Prerequisites
 *.d

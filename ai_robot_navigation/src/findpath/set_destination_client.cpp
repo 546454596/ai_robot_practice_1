@@ -2,7 +2,7 @@
 
 #include <ros/ros.h>
 
-#include "ai_robot_interface/set_destination.h"
+#include "ai_robot_interfaces/set_destination.h"
 
 int main(int argc, char **argv) {
   ros::init(argc, argv, "set_destination_client");
@@ -13,8 +13,8 @@ int main(int argc, char **argv) {
   }
 
   ros::NodeHandle n;
-  ros::ServiceClient client = n.serviceClient<ai_robot_interface::set_destination>("/ai_robot_navigation/setdestination");
-  ai_robot_interface::set_destination srv;
+  ros::ServiceClient client = n.serviceClient<ai_robot_interfaces::set_destination>("/ai_robot_navigation/setdestination");
+  ai_robot_interfaces::set_destination srv;
   srv.request.x = atof(argv[1]);
   srv.request.y = atof(argv[2]);
   srv.request.z = atof(argv[3]);

@@ -2,13 +2,12 @@
 <package format="2">
   <name>ai_robot_sensors</name>
   <version>0.1.0</version>
-  <description>The ai_robot sensors package</description>
-  <author email="gongzheng@sjtu.edu.cn">GONG Zheng</author>
-  <maintainer email="gongzheng@sjtu.edu.cn">GONG Zheng</maintainer>
+  <description>The ai_robot sensors package.</description>
+  <author email="gongzheng@sjtu.edu.cn">Gong Zheng</author>
+  <maintainer email="gongzheng@sjtu.edu.cn">Gong Zheng</maintainer>
   <maintainer email="xmj@sjtu.edu.cn">Xu Minjie</maintainer>
   <license>TODO</license>
   <url type="website">https://bat.sjtu.edu.cn</url>
-  <url type="repository">http://wiki.ros.org/ai_robot_sensors</url>
 
   <buildtool_depend>catkin</buildtool_depend>
   <depend>razor_imu_9dof</depend>

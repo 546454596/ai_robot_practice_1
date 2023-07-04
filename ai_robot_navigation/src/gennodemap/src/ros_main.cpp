@@ -2,8 +2,8 @@
 #include "ros/ros.h"
 #include "ros/time.h"
 #include "std_msgs/String.h"
-// #include "ai_robot_interface/MpTraj.h"
-// #include "ai_robot_interface/TopoMetric.h"
+// #include "ai_robot_interfaces/MpTraj.h"
+// #include "ai_robot_interfaces/TopoMetric.h"
 
 using namespace std;
 
@@ -13,7 +13,7 @@ public:
     gentopo(ros::NodeHandle &_n, const string &paramfile):
         nh(_n), kfh(paramfile)
     {
-//        topo_pub = nh.advertise<ai_robot_interface::TopoMetric>("/topomap", 1);
+//        topo_pub = nh.advertise<ai_robot_interfaces::TopoMetric>("/topomap", 1);
 //        mptraj_sub = nh.subscribe("/mptraj", 1, &gentopo::mptrajCB, this);
         savedone_sub = nh.subscribe("/slam/savedone", 1, &gentopo::savedoneCB, this);
         gentopodone_pub = nh.advertise<std_msgs::String>("/topo/savedone", 1);
@@ -47,7 +47,7 @@ private:
         ROS_INFO("[gentopo]generate and save topo done.");
     }
 /*
-    void mptrajCB(const ai_robot_interface::MpTrajConstPtr& msg)
+    void mptrajCB(const ai_robot_interfaces::MpTrajConstPtr& msg)
     {
         //turn msg to pcl pointcloud
         pcl::PointCloud<pcl::PointXYZRGB>::Ptr _mapPC(new pcl::PointCloud<pcl::PointXYZRGB>)
@@ -69,7 +69,7 @@ private:
         kfh.reset(_mapPC, _keyfPC);
         kfh.dealKeyFrame();
         //publish topomap
-        ai_robot_interface::TopoMetric tmmsg;
+        ai_robot_interfaces::TopoMetric tmmsg;
         geometry_msgs::PointStamped ptst;
         for(int i=0; i<kfh.denkeyfPC->size(); ++i){
             ptst.point.x = kfh.denkeyfPC->points[i].x;

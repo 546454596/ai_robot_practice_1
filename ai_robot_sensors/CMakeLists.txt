@@ -14,3 +14,7 @@ catkin_package(
   ublox_serialization
   zed_wrapper
 )
+
+install(DIRECTORY launch
+  DESTINATION "${CATKIN_PACKAGE_SHARE_DESTINATION}"
+)

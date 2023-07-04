@@ -26,7 +26,7 @@
 #include <std_msgs/Int16.h>
 #include <std_msgs/Int32.h>
 
-#include "ai_robot_interface/set_destination.h"
+#include "ai_robot_interfaces/set_destination.h"
 #include "findpath/findpath_srm.h"
 #include "point_to_point/point_to_point.h"
 #include "pos_control.h"
@@ -115,8 +115,8 @@ private:
   void velocityCallback(const geometry_msgs::TwistStamped::ConstPtr& msg);
   
   // Service callbacks
-  bool setDestinationCallback(ai_robot_interface::set_destination::Request& req,
-                              ai_robot_interface::set_destination::Response& res);
+  bool setDestinationCallback(ai_robot_interfaces::set_destination::Request& req,
+                              ai_robot_interfaces::set_destination::Response& res);
 
   // For remote control
   void taskCancelCallback(std_msgs::Empty::ConstPtr msg);
