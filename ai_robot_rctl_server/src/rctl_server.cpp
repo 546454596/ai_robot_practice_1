@@ -12,7 +12,6 @@ using ai_robot_rctl_server::RctlMapMetaData;
 
 RemoteControlServer::RemoteControlServer(const ros::NodeHandle& nh)
     : nh_(nh) {
-  getMapFilename();
   initPublishersAndSubscribers();
 }
 
@@ -23,7 +22,7 @@ void RemoteControlServer::getMapFilename() {
   nh_.getParam("/map_path", map_path);
 
   if (map_path.back() == '/') {
-    map_path = map_path.substr(0, map_path.find("/"));
+    map_path = map_path.substr(0, map_path.find_last_not_of("/") + 1);
   }
 
   fs::path pathname(map_path);
@@ -37,6 +36,8 @@ void RemoteControlServer::initPublishersAndSubscribers() {
 
 void RemoteControlServer::publishMapMetaData(const nav_msgs::OccupancyGrid::ConstPtr& msg) {
   ROS_INFO("map metadata resultion %f.", msg->info.resolution);
+  if (map_filename_.empty())
+    getMapFilename();
   RctlMapMetaData mapdata;
   mapdata.filename.data = map_filename_.c_str();
   mapdata.data = msg->info;
