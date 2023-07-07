@@ -17,7 +17,7 @@ RemoteControlServer::RemoteControlServer(const ros::NodeHandle& nh)
 
 RemoteControlServer::~RemoteControlServer() {}
 
-void RemoteControlServer::getMapFilename() {
+void RemoteControlServer::getMapName() {
   std::string pathname;
   nh_.getParam("/map_path", pathname);
 
@@ -35,9 +35,8 @@ void RemoteControlServer::initPublishersAndSubscribers() {
 }
 
 void RemoteControlServer::publishMapMetaData(const nav_msgs::OccupancyGrid::ConstPtr& msg) {
-  ROS_INFO("map metadata resultion %f.", msg->info.resolution);
   if (map_name_.empty())
-    getMapFilename();
+    getMapName();
   RctlMapMetaData mapdata;
   mapdata.name.data = map_name_;
   mapdata.data = msg->info;
