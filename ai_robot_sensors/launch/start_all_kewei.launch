@@ -73,8 +73,8 @@
 	<!-- launch GNSS -->
 	<node	name="gnss" pkg="ublox_gps" type="ublox_gps" output="screen" if="$(arg use_gnss)">
 		<rosparam command="load" file="$(find ai_robot_sensors)/config/gnss/$(arg gps_module).yaml"/>
-		<param name="gnss_port" type="string" value="$(arg gps_dev)"/>
-		<param name="gnss_frame_id" type="string" value="gnss"/>
+		<param name="gnss_port" type="str" value="$(arg gps_dev)"/>
+		<param name="gnss_frame_id" type="str" value="gnss"/>
 	</node>
 
 <!-- launch viwer -->
