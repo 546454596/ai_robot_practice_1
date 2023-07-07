@@ -20,10 +20,14 @@ generate_messages(DEPENDENCIES
   std_msgs
 )
 
-catkin_package(CATKIN_DEPENDS
-  message_runtime
-  nav_msgs
-  std_msgs
+catkin_package(
+  CATKIN_DEPENDS
+    message_runtime
+    nav_msgs
+    std_msgs
+    roscpp
+  DEPENDS
+    Boost
 )
 
 add_executable(rctl_server

@@ -11,13 +11,13 @@ public:
   virtual ~RemoteControlServer();
 
 private:
-  void getMapFilename();
+  void getMapName();
   void publishMapMetaData(const nav_msgs::OccupancyGrid::ConstPtr &msg);
   void initPublishersAndSubscribers();
 
 private:
   ros::NodeHandle nh_;
-  std::string map_filename_;
+  std::string map_name_;
   ros::Subscriber map_sub_;
   ros::Publisher map_pub_;
 };

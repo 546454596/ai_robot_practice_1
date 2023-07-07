@@ -18,15 +18,15 @@ RemoteControlServer::RemoteControlServer(const ros::NodeHandle& nh)
 RemoteControlServer::~RemoteControlServer() {}
 
 void RemoteControlServer::getMapFilename() {
-  std::string map_path;
-  nh_.getParam("/map_path", map_path);
+  std::string pathname;
+  nh_.getParam("/map_path", pathname);
 
-  if (map_path.back() == '/') {
-    map_path = map_path.substr(0, map_path.find_last_not_of("/") + 1);
+  if (pathname.back() == '/') {
+    pathname = pathname.substr(0, pathname.find_last_not_of("/") + 1);
   }
 
-  fs::path pathname(map_path);
-  map_filename_ = pathname.filename().string();
+  fs::path map_path(pathname);
+  map_name_ = map_path.filename().stem().string();
 }
 
 void RemoteControlServer::initPublishersAndSubscribers() {
@@ -36,10 +36,10 @@ void RemoteControlServer::initPublishersAndSubscribers() {
 
 void RemoteControlServer::publishMapMetaData(const nav_msgs::OccupancyGrid::ConstPtr& msg) {
   ROS_INFO("map metadata resultion %f.", msg->info.resolution);
-  if (map_filename_.empty())
+  if (map_name_.empty())
     getMapFilename();
   RctlMapMetaData mapdata;
-  mapdata.filename.data = map_filename_.c_str();
+  mapdata.name.data = map_name_;
   mapdata.data = msg->info;
   map_pub_.publish(mapdata);
 }

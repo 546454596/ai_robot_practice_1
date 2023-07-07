@@ -1,6 +1,4 @@
 <launch>
-	<arg name="map_path" default=""/>
-	<param name="/map_path" value="$(arg map_path)"/>
 	<node name="rctl_server" pkg="ai_robot_rctl_server" type="rctl_server">
 	</node>
 </launch>
