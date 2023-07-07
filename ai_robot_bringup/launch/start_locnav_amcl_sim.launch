@@ -10,11 +10,19 @@
     <arg name="sim" value="true" />
   </include>
   <!-- Start navigation core module -->
-  <include file="$(find ai_robot_navigation)/launch/globalnav.launch">
+  <include file="$(find ai_robot_navigation)/launch/globalnav_amcl.launch">
     <arg name="sim" value="true" />
   </include>
   <include file="$(find ai_robot_navigation)/launch/obsavoid.launch">
     <arg name="sim" value="true" />
+  </include>
+
+  <!-- Launch remote control server -->
+  <include file="$(find ai_robot_rctl_server)/launch/start_server.launch"/>
+
+  <!-- Launch rosbridge websocket server connecting remote control server and client -->
+  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+    <arg name="output" value="log"/>
   </include>
 </launch>
 <!-- vim: set ft=xml noet : -->

@@ -59,10 +59,10 @@ private:
             pt.z = msg->trajectory.poses[i].pose.position.z;
             _keyfPC->push_back(pt);
         }
-        for(int i=0; i<msg->map_point.size(); ++i){
-            pt.x = msg->map_point[i].point.x;
-            pt.y = msg->map_point[i].point.y;
-            pt.z = msg->map_point[i].point.z;
+        for(int i=0; i<msg->map_points.size(); ++i){
+            pt.x = msg->map_points[i].point.x;
+            pt.y = msg->map_points[i].point.y;
+            pt.z = msg->map_points[i].point.z;
             _mapPC->push_back(pt);
         }
         //get topomap
