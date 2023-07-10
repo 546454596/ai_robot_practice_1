@@ -1,27 +1,27 @@
 <!--launch all necessary node for localization and navigation-->
 <launch>
-	<include file="$(find ai_robot_sensors)/launch/start_all_kewei.launch">
-		<arg name="use_vision" value="$(arg vision)"/>
-		<arg name="use_lidar" value="$(arg velodyne)"/>
-		<arg name="use_quanergy" value="$(arg quanergy)"/>
-		<arg name="use_laser" value="$(arg hokuyo)"/>
-	</include>
+  <include file="$(find ai_robot_sensors)/launch/start_all_kewei.launch">
+    <arg name="use_vision" value="$(arg vision)"/>
+    <arg name="use_lidar" value="$(arg velodyne)"/>
+    <arg name="use_quanergy" value="$(arg quanergy)"/>
+    <arg name="use_laser" value="$(arg hokuyo)"/>
+  </include>
 
-	<include file="$(find ranger_bringup)/launch/ranger_minimal.launch" if="$(eval arg('agv')=='ranger')"/>
-	<include file="$(find jiaolong_ros_wrapper)/launch/start.launch" if="$(eval arg('agv')=='jiaolong')"/>
-	<include file="$(find rosaria)/launch/start.launch" if="$(eval arg('agv')=='p3at')"/>
-	<include file="$(find autolabor_pro)/launch/start.launch" if="$(eval arg('agv')=='autolabor')"/>
-	<include file="$(find scout_bringup)/launch/scout_minimal_uart.launch" if="$(eval arg('agv')=='scout')"/>
+  <include file="$(find ranger_bringup)/launch/ranger_minimal.launch" if="$(eval arg('agv')=='ranger')"/>
+  <include file="$(find jiaolong_ros_wrapper)/launch/start.launch" if="$(eval arg('agv')=='jiaolong')"/>
+  <include file="$(find rosaria)/launch/start.launch" if="$(eval arg('agv')=='p3at')"/>
+  <include file="$(find autolabor_pro)/launch/start.launch" if="$(eval arg('agv')=='autolabor')"/>
+  <include file="$(find scout_bringup)/launch/scout_minimal_uart.launch" if="$(eval arg('agv')=='scout')"/>
 
-	<include file="$(find ai_robot_localization)/launch/carto_3d_slam.launch" if="$(eval arg('loc_method')=='carto_3d')"/>
-	<include file="$(find ai_robot_localization)/launch/carto_2d_slam.launch" if="$(eval arg('loc_method')=='carto_2d')"/>
-	<include file="$(find ai_robot_localization)/launch/orbslam_map.launch" if="$(eval arg('loc_method')=='orb_slam')">
-		<arg name="mapfolder" value="$(arg map_path)"/>
-	</include>
+  <include file="$(find ai_robot_localization)/launch/carto_3d_slam.launch" if="$(eval arg('loc_method')=='carto_3d')"/>
+  <include file="$(find ai_robot_localization)/launch/carto_2d_slam.launch" if="$(eval arg('loc_method')=='carto_2d')"/>
+  <include file="$(find ai_robot_localization)/launch/orbslam_map.launch" if="$(eval arg('loc_method')=='orb_slam')">
+    <arg name="mapfolder" value="$(arg map_path)"/>
+  </include>
 
-	<node name="savemap" pkg="ai_robot_navigation"  type="savemapfromcarto.sh" output="screen" respawn="false" args="$(arg map_path)" unless="$(eval arg('loc_method')=='orb_slam')"/>
+  <node name="savemap" pkg="ai_robot_navigation"  type="savemapfromcarto.sh" output="screen" respawn="false" args="$(arg map_path)" unless="$(eval arg('loc_method')=='orb_slam')"/>
 
-	<include file="$(find ai_robot_navigation)/launch/justmove.launch"/>
+  <include file="$(find ai_robot_navigation)/launch/justmove.launch"/>
 
 </launch>
 <!-- vim: set ft=xml noet : -->
