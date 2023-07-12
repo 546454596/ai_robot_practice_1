@@ -1276,7 +1276,18 @@ void P3atObstacleAvoidance::findSafeZoneOctree(const sensor_msgs::LaserScanConst
   }
 
   ++start_in_msg;
-  lidar_xyz_oct_.initialize(lidar_pc_xyz_->points, oct_params);
+
+  // NOTE: Non-empty check on `lidar_pc_xyz_` is necessary for gazebo simulation
+  // in docker or on some low-end machines! The gazebo lidar model running in
+  // docker or on a low-end machine takes longer time to initiliaze itself so
+  // that the `ranger` member in the first few frames of `msg` (i.e.
+  // msg->ranges) contains all inf (infinity) values, having the `if
+  // (fabs(msg->ranges[i]) < 10)` branch above to be skipped and no `push_back`
+  // on `lidar_pc_xyz_` gets done. Finally, attempts to access the empty
+  // `lidar_pc_xyz_` raises segmentation fault on octree (`lidar_xyz_oct_`)
+  // initialization.
+  if (!lidar_pc_xyz_->points.empty())
+    lidar_xyz_oct_.initialize(lidar_pc_xyz_->points, oct_params);
 
   bool obs_existed = false, sn_started = false;
   std::vector<uint32_t> res;
