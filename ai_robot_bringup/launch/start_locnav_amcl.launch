@@ -9,7 +9,7 @@
 
 	<!-- Start robot state publisher -->
   <param name="robot_description" command="$(arg urdf_file)" />
-  <node name="cartorobot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
   <!-- Start sensors -->
   <include file="$(find ai_robot_sensors)/launch/start_all_kewei.launch" />
@@ -17,6 +17,8 @@
   <!-- Start nav demo -->
 	<include file="$(find ai_robot_nav_demo)/launch/brainnav.launch" />
 
+  <!-- Start pose publisher -->
+	<node name="posepub_node" pkg="ai_robot_localization" type="posepub"/>
   <!-- Start navigation core -->
 	<include file="$(find ai_robot_navigation)/launch/globalnav_amcl.launch" />
   <include file="$(find ai_robot_navigation)/launch/obsavoid.launch" />

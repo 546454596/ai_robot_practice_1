@@ -1,15 +1,23 @@
 <!-- Start all core feature for gazebo simulation -->
 <launch>
+	<!-- Set log format -->
 	<env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}] [${node}]: ${message}" />
+
 	<arg name="agv" default="ranger_mini" />
 
 	<!-- Start simulation environment for ranger_mini -->
 	<include file="$(find ranger_mini_gazebo)/launch/ai_robot_ranger_gazebo.launch" if="$(eval arg('agv') == 'ranger_mini')" />
-	<!-- Start navigation demo -->
+
+	<!-- Start amcl and mapserver -->
   <include file="$(find ai_robot_nav_demo)/launch/brainnav.launch">
     <arg name="sim" value="true" />
   </include>
-  <!-- Start navigation core module -->
+	
+  <!-- Start pose publisher -->
+	<node name="posepub_node" pkg="ai_robot_localization" type="posepub">
+    <remap from="slam/pose" to="est_pose"/>
+	</node>
+  <!-- Start navigation module -->
   <include file="$(find ai_robot_navigation)/launch/globalnav_amcl.launch">
     <arg name="sim" value="true" />
   </include>

@@ -6,9 +6,14 @@
 	<remap from="base_scan" to="scan" if="$(arg sim)"/>
 	<remap from="RosAria/cmd_vel" to="sim_p3at/cmd_vel" if="$(arg sim)"/>
 
-  <node name="posepub_node" pkg="ai_robot_localization" type="posepub">
-    <remap from="slam/pose" to="est_pose"/>
-  </node>
+  <!-- <node name="pose_ekf" pkg="ai_robot_navigation" type="pose_ekf_node" respawn="false" output="screen"> -->
+  <!--   <remap from="mavros/imu/data" to="sensors/imu" /> -->
+		<!-- <remap from="RosAria/pose" to="sim_p3at/odom" if="$(arg sim)"/> -->
+  <!-- </node> -->
+
+  <!-- <node name="posepub_node" pkg="ai_robot_localization" type="posepub"> -->
+  <!--   <remap from="slam/pose" to="est_pose" if="$(arg sim)"/> -->
+  <!-- </node> -->
 
 	<node name="brain" pkg="ai_robot_navigation" type="brain_node" respawn="false" output="screen"/>
 
