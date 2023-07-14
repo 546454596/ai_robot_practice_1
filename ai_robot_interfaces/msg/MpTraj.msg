@@ -1,2 +1,2 @@
-geometry_msgs/PointStamped[] map_point
+geometry_msgs/PointStamped[] map_points
 nav_msgs/Path trajectory

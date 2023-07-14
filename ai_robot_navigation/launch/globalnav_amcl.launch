@@ -1,0 +1,94 @@
+<launch>
+	<arg name="sim" default="false" />
+
+	<!-- base_scan had better being rempped in parent launch file -->
+	<remap from="base_scan" to="sensors/lidar/scan" unless="$(arg sim)"/>
+	<remap from="base_scan" to="scan" if="$(arg sim)"/>
+	<remap from="RosAria/cmd_vel" to="sim_p3at/cmd_vel" if="$(arg sim)"/>
+
+  <!-- <node name="pose_ekf" pkg="ai_robot_navigation" type="pose_ekf_node" respawn="false" output="screen"> -->
+  <!--   <remap from="mavros/imu/data" to="sensors/imu" /> -->
+		<!-- <remap from="RosAria/pose" to="sim_p3at/odom" if="$(arg sim)"/> -->
+  <!-- </node> -->
+
+  <!-- <node name="posepub_node" pkg="ai_robot_localization" type="posepub"> -->
+  <!--   <remap from="slam/pose" to="est_pose" if="$(arg sim)"/> -->
+  <!-- </node> -->
+
+	<node name="brain" pkg="ai_robot_navigation" type="brain_node" respawn="false" output="screen"/>
+
+  <!-- joystick -->
+  <node name="joystick" pkg="joy" type="joy_node" respawn="false" output="screen">
+    <!-- <param name="dev" value="/dev/input/js-btp2185"/> -->
+    <param name="dev" value="/dev/input/js0"/>
+  </node>
+
+  <!-- 0: PID, 1: FuzzyPID, 2: ADRC -->
+  <param name="controllerType" value="0"/>
+  <rosparam command="load" file="$(find ai_robot_navigation)/config/pid/params_control.yaml"/>
+  <!-- pose_ekf params -->
+  <param name="use_gps" value="0"/>
+  <param name="use_vicon" value="0"/>
+  <param name="errCamToDroneCenter" value="0.2"/>
+  <param name="wheel_type" value="1.0"/>
+  <!-- safety params -->
+  <param name="offline_threashold_time" value="3.0"/>
+  <param name="low_battery_threshold" value="10.0"/>
+  <!-- poscontrol params-->
+  <param name="gravity" value="9.80665"/>
+  <!-- unit: radius-->
+  <param name="max_angle" value="1.0"/>
+  <!-- default horizontal acceleration in m/s/s -->
+  <param name="poscontrol_accel_xy" value="2.0"/>
+  <param name="poscontrol_speed" value="2.0"/>
+  <!-- max horizontal acceleration in m/s/s for the position velocity controller -->
+  <param name="poscontrol_accel_xy_max" value="9.80"/>
+  <param name="max_target_distance" value="1.0"/>
+  <param name="sonar_lower_lp_threshold" value="0.2"/>
+  <param name="sonar_upper_lp_threshold" value="0.5"/>
+  <param name="feedforward_para" value="0.0"/>
+  <param name="use_opticalflow" value="1"/>
+  <param name="max_count_position" value="20"/>
+  <param name="mave_mode" value="1"/>
+  <!-- visionhover switch-->
+  <param name="vision_hover_switch" value="1"/>
+  <!-- visionhover params-->
+  <param name="resize_width" value="640"/>
+  <param name="resize_height" value="480"/>
+
+  <arg name="keyf" default="$(find ai_robot_navigation)/mapdata/denKeyfPos.txt"/>
+  <arg name="keyfrelation" default="$(find ai_robot_navigation)/mapdata/denKeyfPosRelation.txt"/>
+  <arg name="mappoint" default="$(find ai_robot_navigation)/mapdata/MapPointsPos.txt"/>
+
+  <!-- <arg name="keyf" default="$(find ai_robot_navigation)/src/gennodemap/Result/denKeyfPos.txt"/> -->
+  <!-- <arg name="keyfrelation" default="$(find ai_robot_navigation)/src/gennodemap/Result/denKeyfPosRelation.txt"/> -->
+  <!-- <arg name="mappoint" default="$(find ai_robot_navigation)/src/gennodemap/Result/MapPointsPos.txt"/> -->
+
+  <param name="denKeyfPos" value="$(arg keyf)"/>
+  <param name="denKeyfPosRelation" value="$(arg keyfrelation)"/>
+  <param name="MapPointsPos" value="$(arg mappoint)"/>
+  <param name="logfile" value="$(find ai_robot_navigation)/src/findpath/logfile.txt"/>
+  <param name="keyframe_params_filepath" value="$(find ai_robot_navigation)/config/findpath/params_keyframe.yaml"/>
+  <param name="pointToPointFile" value="$(find ai_robot_navigation)/src/point_to_point/waypoints.txt"/>
+	<param name="posPIDPath" value="$(find ai_robot_navigation)/config/pid/hoverPosPID.txt"/>
+	<param name="velPIDPath" value="$(find ai_robot_navigation)/config/pid/hoverVelPID.txt"/>
+	<param name="trajectoryPIDPath" value="$(find ai_robot_navigation)/config/pid/trajectoryPID.txt"/>
+  <param name="trajectoryPointsPath" value="$(find ai_robot_navigation)/trajectoryPoints/trajectoryPoints.txt"/>
+  <param name="outfile1Path" value="$(find ai_robot_navigation)/Record/pos_vel_return.txt"/>
+  <param name="outfile2Path" value="$(find ai_robot_navigation)/Record/pos_vel_hover.txt"/>
+
+  <param name="drift_path" value="$(find ai_robot_navigation)/drift/drift.txt"/>
+  <param name="geoidsPath" value="$(find ai_robot_navigation)/src/pose_ekf/geoids"/>
+
+	<param name="altPIDPath" value="$(find ai_robot_navigation)/config/pid/altitudePID.txt"/>
+	<param name="velPIDPath" value="$(find ai_robot_navigation)/config/pid/altitudeVelPID.txt"/>
+  <param name="altFoutPath" value="$(find ai_robot_navigation)/Record/alt_error.txt"/>
+
+  <param name="intrinsicslPath" value="$(find ai_robot_navigation)/calibration/Intrinsicsl.xml"/>
+  <param name="intrinsicsrPath" value="$(find ai_robot_navigation)/calibration/Intrinsicsr.xml"/>
+  <param name="affinelPath" value="$(find ai_robot_navigation)/calibration/affinel.xml"/>
+  <param name="affinerPath" value="$(find ai_robot_navigation)/calibration/affiner.xml"/>
+  <param name="distortionlPath" value="$(find ai_robot_navigation)/calibration/distortionl.xml"/>
+  <param name="distortionrPath" value="$(find ai_robot_navigation)/calibration/distortionr.xml"/>
+</launch>
+<!-- vim: set ft=xml noet : -->
